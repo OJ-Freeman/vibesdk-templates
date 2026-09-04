@@ -1,0 +1,15 @@
+/**
+ * Phaser game template — static HTML/CSS/JS + Phaser (CDN) only, no worker
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "phaser-js",
+  "compatibility_date": "2025-04-24",
+  "assets": {
+    "directory": "public",
+    "not_found_handling": "single-page-application"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

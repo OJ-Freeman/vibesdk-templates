@@ -1,0 +1,209 @@
+:root {
+  --bg-deep: #05060f;
+  --bg-mid: #0b0e21;
+  --ink: #eef1ff;
+  --ink-dim: #9aa0c7;
+  --accent: #5be8ff;
+  --accent-2: #ff5ec4;
+  --danger: #ff6b6b;
+  --glow: 0 0 24px rgba(91, 232, 255, 0.35);
+  --font-display: "Chakra Petch", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg-deep);
+  overscroll-behavior: none;
+}
+
+#app-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 600px at 15% -10%, rgba(91, 232, 255, 0.16), transparent 60%),
+    radial-gradient(900px 700px at 100% 110%, rgba(255, 94, 196, 0.14), transparent 60%),
+    var(--bg-mid);
+}
+
+/* Phaser injects its <canvas> into this container and sizes it via
+   Phaser.Scale.FIT, so this just needs to center it. */
+#game-root {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#game-root canvas { display: block; }
+
+/* ---------- HUD ---------- */
+#hud {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 16px;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.25s ease;
+}
+#hud.hidden { opacity: 0; }
+
+.hud-pill {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(11, 14, 33, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.hud-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-dim);
+}
+#hud-score { color: var(--accent); font-size: 1.05rem; }
+.hud-combo { border-color: rgba(255, 94, 196, 0.35); }
+#hud-combo { color: var(--accent-2); font-size: 1.05rem; }
+.hud-combo.pulse { animation: comboPulse 0.35s ease; }
+@keyframes comboPulse {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.hud-lives {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(11, 14, 33, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+}
+.hud-lives .life {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--danger);
+  box-shadow: 0 0 8px rgba(255, 107, 107, 0.7);
+}
+.hud-lives .life.lost {
+  background: transparent;
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ---------- Overlays (start / game-over) ---------- */
+.overlay-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(1200px 800px at 50% 20%, rgba(91, 232, 255, 0.10), transparent 55%),
+    rgba(5, 6, 15, 0.72);
+  backdrop-filter: blur(6px);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.overlay-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.overlay-card {
+  max-width: 30rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 9vw, 4rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.title-glow {
+  color: var(--ink);
+  text-shadow: var(--glow);
+}
+.title-thin {
+  color: var(--accent-2);
+  font-weight: 400;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--ink-dim);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+.subtitle strong { color: var(--ink); }
+
+.btn-primary {
+  margin-top: 0.4rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 1rem;
+  color: #05060f;
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 2.2rem;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(91, 232, 255, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(91, 232, 255, 0.35); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--ink-dim);
+  opacity: 0.8;
+}
+
+@media (max-width: 480px) {
+  .hud-pill, .hud-lives { padding: 6px 10px; }
+  .hud-label { display: none; }
+}

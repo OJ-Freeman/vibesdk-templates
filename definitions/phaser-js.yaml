@@ -1,0 +1,22 @@
+name: "phaser-js"
+description: "2D arcade/canvas game starter built on Phaser 3 (via CDN), with a working reference mini-game demonstrating juice: particle bursts, camera shake/flash, tween feedback, a parallax starfield, and a polished DOM HUD/menu around the canvas."
+base_reference: "phaser-js-reference"
+projectType: app
+renderMode: browser
+
+package_patches:
+  name: "phaser-js"
+
+excludes:
+  - "worker/**"
+  - "scripts/**"
+  - "eslint.config.js"
+  - "tsconfig.json"
+  - ".eslintcache"
+  - ".donttouch_files.json"
+  - ".important_files.json"
+  - ".redacted_files.json"
+
+template_specific_files:
+  - wrangler.jsonc
+  - prompts/
